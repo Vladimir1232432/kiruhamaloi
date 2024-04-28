@@ -1,0 +1,81 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <locale> 
+
+using namespace std;
+
+int main() {
+	setlocale(LC_ALL, "Russian");
+	system("chcp 1251 > nul");
+
+	vector <vector <int> > Otveti(2);
+	vector <vector <string> > shifr(2);
+	vector <int> summ;
+	vector <string> final;
+	int insumm = 0;
+	int index = 0;
+	string perem;
+	string alphavite = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!.,@_-=+*";
+	string key = "книга";
+	string text = " ";
+	cout << "Введите текст: ";
+	getline(cin, text);
+	for (int i = 0; i < text.size(); i++) {
+		if (text[i] == ' ') {
+			text[i] = '_';
+		}
+	}
+	for (int i = 0; i < 2; i ++) {
+		if (i == 0) {
+			for (int j = 0; j < text.size(); j++) {
+				shifr[i].push_back(text.substr(j, 1));
+				//cout << shifr[i][j];
+			}
+		}
+		if (i == 1){
+			do{
+				for (int j = 0; j < key.size(); j++) {
+					shifr[i].push_back(key.substr(j, 1));
+					//cout << shifr[i][j];
+					if (shifr[i].size() == text.size()) {
+						break;
+					}
+				}
+			} while (shifr[i].size() < text.size());
+		}
+		//cout << " " << endl;
+	}
+
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < shifr[i].size(); j++) {
+			perem = shifr[i][j];
+			for (int k = 0; k < perem.size(); k++){
+				index = alphavite.find(perem);
+				Otveti[i].push_back(index);
+				//cout << Otveti[i][j] <<" ";
+				index = 0;
+				break;
+			}
+		}
+		//cout << " " << endl;
+	}
+	for (int i = 0; i < 1; i++){
+		for (int j = 0; j < Otveti[i].size(); j++) {
+			insumm = Otveti[0][j] + Otveti[1][j];
+			if (insumm > alphavite.size()) {
+				insumm = insumm - alphavite.size();
+			}
+			summ.push_back(insumm);
+			//cout << summ[j] << " ";
+		}
+	}
+	//cout << " " << endl;
+	cout << "Результат шифрования: ";
+	for (int i = 0; i < summ.size(); i++){
+		final.push_back(alphavite.substr(summ[i], 1));
+		cout << final[i];
+	}
+	//cout << alphavite.size() << endl;
+	return 0;
+}
