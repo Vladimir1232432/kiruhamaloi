@@ -1,0 +1,61 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <locale> 
+
+using namespace std;
+int main() {
+    setlocale(LC_ALL, "Russian"); 
+    system("chcp 1251 > nul");
+
+    vector <string> DimMem;
+    string key = "32541";
+    string text = " "; 
+    int prov = 5;
+    cout << "Введите текст: ";
+    getline(cin, text);
+
+    for (int i = 0; i < text.size(); i++) {
+        if (text[i] == ' ') {
+            text[i] = '_';
+        }
+    }
+    for (int i = 0; i < key.size(); i++) {
+        DimMem.push_back(key.substr(i, 1));
+    }
+    for (int i = 0; i < text.size(); i++) {
+        DimMem.push_back(text.substr(i, 1));
+    }
+    for (int i = 0; DimMem.size() % 5 !=0; i++){
+        DimMem.push_back("@");
+    }
+    for (int i = 0; i < DimMem.size(); i += 5){
+        if (i + 4 < DimMem.size()){
+            swap(DimMem[i], DimMem[i + 4]);
+        } else { break; }
+    }
+    for (int i = 0; i < DimMem.size(); i += 5) {
+        if (i + 1 < DimMem.size()) {
+            swap(DimMem[i + 1], DimMem[i + 2]);
+        } else { break; }
+    }
+    cout << " " << endl;
+    cout << "Результат шифрования: ";
+    for (int j = 5; j < DimMem.size(); j++) {
+        if (j < 10) {
+        for (int i = j; i < DimMem.size(); i += 5) {
+            if (prov + 5 <= DimMem.size()) {
+                cout << DimMem[i];
+            }
+            else { break; }
+        }
+        prov++;
+        }else { break; }
+    }
+
+    cout << " " << endl;
+    cout << "Количество символов: ";
+    cout << DimMem.size() << endl;
+
+    return 0;
+}
